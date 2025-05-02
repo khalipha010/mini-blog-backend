@@ -10,25 +10,8 @@ const fileUpload = require('express-fileupload');
 require('dotenv').config();
 
 const app = express();
-
-// CORS configuration
-const allowedOrigins = [process.env.FRONTEND_URL || 'https://mini-blog-frontend-nine.vercel.app'];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (e.g., mobile apps, curl)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
 app.use(express.json());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(fileUpload({ createParentPath: true }));
 
 // Cloudinary config
